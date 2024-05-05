@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src = "datamatrix.min.js"></script>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+        body, html{
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            display: grid;
+            align-items: center;
+            justify-content: center;
+            -webkit-print-color-adjust:exact;
+            user-select: none;
+            font-family: "Roboto", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+        }
+        #QRCODE{
+            height: 1in;
+            width: 1in;
+        }
+        #QRCODE > svg{
+            height: 1in;
+            width: 1in;
+            position: absolute;
+            z-index: 2;
+        }
+        .parent{
+            height: 2.85in;
+            width: 2.85in;
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            border: 1px dotted rgb(217, 217, 217);
+            position: relative;
+            border-radius: 15px;
+        }
+        .blacksquare{
+            z-index: 1;
+            position: absolute;
+            height: 1.96in;
+            width: 1.96in;
+            background-color: black;
+        }
+        .whitesquare{
+            z-index: 1;
+            position: absolute;
+            height: 1.5in;
+            width: 1.5in;
+            background-color: white;
+        }
+        .center_squares{
+            print-color-adjust: exact;
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            height: 1.96in;
+            width: 1.96in;
+        }
+        #textinput{
+            border: none;
+            position: absolute;
+            top: 4px;
+            left: 10px;
+            width: 100px;
+            font-size: 18px;
+        }
+
+        #textinput:focus{
+            border: none;
+        }
+
+        .outer_center_squares{
+            display: grid;
+            align-items: center;
+            justify-items: center;
+        }
+        .text{
+            border: none;
+            position: absolute;
+            bottom: 4px;
+            left: 10px;
+            font-size: .9em;
+            color: rgb(31, 31, 31);
+        }
+        .text2{
+            border: none;
+            position: absolute;
+            bottom: 4px;
+            right: 10px;
+            font-size: .9em;
+            color: rgb(31, 31, 31);
+        }
+        .v_bar{
+            height: 2.85in;
+            width: 1px;
+            background-color: black;
+            position: absolute;
+            z-index: 0;
+        }
+        .h_bar{ 
+            height: 1px;
+            width: 2.85in;
+            background-color: black;
+            position: absolute;
+            z-index: 0;
+        }
+        .bigger_whitebox{
+            width: 2.3in;
+            height: 2.3in;
+            position: absolute;
+            background-color: white;
+            z-index: 1;
+        }
+        .footer{
+            color: white;
+            height: 20px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 12px;
+            background-color: #272b35;
+            text-align: center;
+        }
+        .footer > a {
+            text-shadow: 0 0 3px white;
+            color: black;
+            text-decoration: none;
+            
+        }
+
+        @media print{
+            .footer {
+                display: none;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+<div class = "parent">
+    <input id = "textinput" onkeyup = "GenerateMatrix(this)" placeholder="00000001" required = "true" type = "number"></input>
+    <div class = "text">QSA ( 48-5-2 )</div>
+    <div class = "text2">V0.0</div>
+    <div class = "bigger_whitebox"></div>
+    <div class = "v_bar"></div>
+    <div class = "h_bar"></div>
+    <div height = "2.85in" width = "2.85in" class = "outer_center_squares">
+        <div class = "center_squares">
+            <div id = "QRCODE">
+            
+            </div>
+            <div class = "blacksquare"></div>
+            <div class = "whitesquare"></div>
+        </div>
+    </div>
+</div>
+
+<div class = "footer">Copyright @ <a href = "https://github.com/chuan-chen">Chuan Chen</a></div>
+</body>
+<script>
+    const text = document.getElementById("textinput");
+    const qr = document.getElementById("QRCODE");
+    var node = DATAMatrix({msg : "00000001" , dim : 265 ,pad : 0})
+    qr.appendChild(node);
+
+    function GenerateMatrix(e){
+        qr.removeChild(node);
+        node = DATAMatrix({msg : e.value , dim : 265 ,pad : 0});
+        console.log()
+        if(e.value == ""){
+            node = DATAMatrix({msg : "00000001" , dim : 265 ,pad : 0})
+        }
+        qr.appendChild(node);
+    }
+</script>
+</html> 
